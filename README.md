@@ -30,8 +30,7 @@ Create and mount the ext4 filesystem:
 Done!
 
 ## Installing the filesystem
-Visit https://archlinuxarm.org/about/downloads to find the correct version for your model.
-At the moment, http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz is the correct one for my device. (Ignore the "rpi-2" in the link, it's fine)
+Visit https://archlinuxarm.org/about/downloads to find the correct version for your model.  At the moment, http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz is the correct one for my device. (Ignore the "rpi-2" in the link, it's fine)
 
     
 ## Sources:
