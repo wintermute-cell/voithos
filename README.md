@@ -5,6 +5,7 @@ A writeup on how to setup a system like voithos, including installing archlinux 
 - SD-card
 - Raspberry Pi 3B
 - Raspberry Pi 3 compatible Power Supply (Careful, Pi3 draws more power than 2!)
+- Ethernet cable (and a free port on your rounter ofc!)
 
 ## Partitioning the SD-card
 Run ```lsblk``` to find the SD-cards name, I'll call it sdX from now on.
@@ -27,11 +28,40 @@ Create and mount the ext4 filesystem:
 - ```mkfs.ext4 /dev/sdX2```
 - ```mkdir root```
 - ```mount /dev/sdX2 root```
-Done!
 
 ## Installing the filesystem
-Visit https://archlinuxarm.org/about/downloads to find the correct version for your model.\At the moment, http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz is the correct one for my device. (Ignore the "rpi-2" in the link, it's fine)
+Visit https://archlinuxarm.org/about/downloads to find the correct version for your model.
 
-    
+At the moment, http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz is the correct one for my device. (Ignore the "rpi-2" in the link, it's fine)
+
+Download the package using ```wget http://os.archlinuxarm.org/os/[YOUR_CHOSEN_VERSION_HERE].tar.gz```.
+
+Extract the package into the root dir using ```tar -xf ArchLinuxARM-rpi-2-latest.tar.gz -C root```
+
+Now ```sync``` to move the files to the SD-card.
+
+Move the boot files to the corresponding directory using ```sudo mv boot/* boot```
+
+Unmount the two partitions using ```umount root boot```
+
+## Setting up the device
+Move the SD-card to the Pi and connect via ethernet cable. 
+
+If you want to run the Pi with a monitor (at least temporarily, now would be the time to connect the HDMI cable).
+
+Plug in the power cable! (And watch it boot if connected to monitor)
+
+If you want use SSH, wait around 30 seconds after plugging in the power cable (giving the system time to boot) and then SSH into the device, using the IP adress given by your router.
+*I tend to use a monitor to observe the beauty of the first boot and SSH directly afterwards so I can use my normal keyboard :)*
+
+Log in using the default user ```alarm``` with the default password ```alarm```.
+
+Root password is ```root``` by default. (Used for "alarmpi login:" and the following "password:")
+
+Initialize the pacman keyring ```pacman-key --init``` and populate the Arch Linux arm package signing keys: ```pacman-key --populate archlinuxarm```
+
+Done! You've now got a pretty basic, but running archlinux installation! At this point, you can choose to follow this guide further, to learn how I set up my arch install, or go your own way from here on!
+
 ## Sources:
     - https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
+    - https://www.raspberrypi.org/forums/viewtopic.php?t=90337
