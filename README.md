@@ -7,7 +7,8 @@ A writeup on how to setup a system like voithos, including installing archlinux 
 - Raspberry Pi 3 compatible Power Supply (Careful, Pi3 draws more power than 2!)
 
 ## Partitioning the SD-card
-Run ```lsblk``` to find the SD-cards name, I'll call it sdX from now on.
+Run ```lsblk``` to find the SD-cards name, I'll call it sdX from now on.\\
+
 Run ```fdisk /dev/sdX```:
 Using fdisk delete all old partitions and create a new one:
 
