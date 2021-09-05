@@ -13,9 +13,9 @@ Then run ```fdisk /dev/sdX```:
 Using fdisk delete all old partitions and create a new one:
 - ```o```to delete all existing partitions from the drive.
 - ```p``` to list partitions. Should return an empty list is the clearing was successful.
-- ```n```, to make a new partition, then ```p``` for type = primary, ```1``` as the partition number, and then press <ENTER> to accept the default first sector, then type ```+200M``` (200MBs) for the last sector.
+- ```n```, to make a new partition, then ```p``` for type = primary, ```1``` as the partition number, and then press ENTER to accept the default first sector, then type ```+200M``` (200MBs) for the last sector.
 - ```t```, to set the partition type. Enter ```c``` to set the first partition to type W95 FAT32 (LBA).
-- ```n```, to create another new partition, then enter ```p``` for primary, ```2``` as the partition number, and then press <ENTER>  to accept both default first, and last sector.
+- ```n```, to create another new partition, then enter ```p``` for primary, ```2``` as the partition number, and then press ENTER to accept both default first, and last sector.
 - Using ```w``` write the created partition table to the disk; this also simultaneously exits fdisk.
 
 Create and mount the FAT filesystem:
