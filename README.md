@@ -27,6 +27,12 @@ Create and mount the ext4 filesystem:
 - ```mkfs.ext4 /dev/sdX2```
 - ```mkdir root```
 - ```mount /dev/sdX2 root```
+Done!
 
-### Sources:
+## Installing the filesystem
+Visit https://archlinuxarm.org/about/downloads to find the correct version for your model.
+At the moment, http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz is the correct one for my device. (Ignore the "rpi-2" in the link, it's fine)
+
+    
+## Sources:
     - https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
