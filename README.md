@@ -51,6 +51,8 @@ Now connect the HDMI cable.
 
 Plug in the power cable! (And watch it boot)
 
+Now, to make things easier, temporarily set your keyboard layout with ```loadkeys *LAYOUT*```. You can list available layouts with ```ls /usr/share/kbd/keymaps/**/*.map.gz```
+
 If you want use SSH, wait for it to finish booting, then run enable ssh with the following:
 
 ```systemctl enable sshd.service```  
@@ -99,9 +101,22 @@ An SD-card has a very limited lifetime, especially when written to frequently. U
 The rpi3 doesnt have a hardware clock, don't bother with hwclock. YOu can get one with external components though.
 
 ### Localization
-Edit ```/etc/locale.gen```, uncommenting your desired locale (remember the name of the locale, you'll need it in the next step). Then run ```locale-gen``` to generate the locale.  
+Edit ```/etc/locale.gen```, uncommenting your desired locale (remember the name of the locale, you'll need it in the next step).  
+Then run ```locale-gen``` to generate the locale.
+
 Now edit ```/etc/locale.conf```, setting  
 ```LANG=LOCALE_NAME``` (for example ```de_DE.UTF-8```.)
+
+To permanently set your keyboard layout, create/edit ```/etc/vconsole.conf``` adding the line ```KEYMAP=*LAYOUT*``` where *LAYOUT* is your desired layout. You can list available layouts with ```ls /usr/share/kbd/keymaps/**/*.map.gz```.
+
+### Network
+To setup the machines hostname, edit ```/etc/hostname```, and simply enter your desired hostname as the first and only word of that file.
+
+Then, edit ```/etc/hosts```, adding
+> 127.0.0.1	localhost
+> ::1		localhost
+> 127.0.1.1	HOSTNAME.localdomain	HOSTNAME  
+where *HOSTNAME* is the hostname you have set in the previous step.
 
 ## Unclear
 ### Time issue
