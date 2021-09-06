@@ -113,6 +113,7 @@ To permanently set your keyboard layout, create/edit ```/etc/vconsole.conf``` ad
 To setup the machines hostname, edit ```/etc/hostname```, and simply enter your desired hostname as the first and only word of that file.
 
 Then, edit ```/etc/hosts```, adding
+
     127.0.0.1	localhost
     ::1		localhost
     127.0.1.1	HOSTNAME.localdomain	HOSTNAME
