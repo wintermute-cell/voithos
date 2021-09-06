@@ -68,6 +68,7 @@ Done! You've now got a pretty basic, but running archlinux installation! At this
 
 ## Basic setup
 ### Setting the time
+First, in order to set the timezone, run ```ln -sf /usr/share/zoneinfo/REGION/CITY /etc/localtime```. use ```ls``` in these directories to search for you zone.
 Run ```systemctl start systemd-timesyncd.service``` and ```systemctl enable systemd-timesyncd.service```, and then ```timedatectl set-ntp true``` to enable time & date sync over the internet.
 
 ### Full system upgrade
@@ -82,9 +83,14 @@ Then run ```nmcli device wifi list``` to list available wireless access points, 
 Using pacman, install ```sudo```. Then, run ```visudo``` to edit the sudoers file. To enable full sudo permissions for all users in the ```wheel``` group, uncomment either  
 ```# %wheel ALL=(ALL) ALL```  
 or  
-```%wheel ALL=(ALL) NOPASSWD: ALL```
-
+```# %wheel ALL=(ALL) NOPASSWD: ALL```  
 depending on wether you want a password promt or not.
+
+### Creating a new user
+To create a new user with administrative permissions, run ```useradd -m -g wheel *USERNAME*```. ```-m``` creates a home directory for the new user, and the wheel group is required for certain permissions (see *"Setting up sudo"*).
+
+## A note on the swap partition
+An SD-card has a very limited lifetime, especially when written to frequently. Using swap (particularly for hibernation) has a negative effect on SD-card lifetime. My recommendation would be to restrain from using swap, and to just be a little careful managing memory consumption. Should you choose to use swap anyway, see "Partition the disks" at https://wiki.archlinux.org/title/installation_guide.
 
 ## Unclear
 ### Time issue
@@ -96,3 +102,8 @@ depending on wether you want a password promt or not.
 ## Sources:
 - https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
 - https://www.raspberrypi.org/forums/viewtopic.php?t=90337
+- https://wiki.archlinux.org/title/systemd
+- https://wiki.archlinux.org/title/NetworkManager
+- https://askubuntu.com/questions/795226/how-to-list-all-enabled-services-from-systemctl
+- https://wiki.archlinux.org/title/installation_guide
+- 
