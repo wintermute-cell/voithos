@@ -70,6 +70,8 @@ Done! You've now got a pretty basic, but running archlinux installation! At this
 ## Under Construction
 ### Time issue
 *Starting ```systemctl start systemd-timesyncd.service``` just worked at some point?? After that ```timedatectl set-ntp true``` to enable time sync over internet*.
+### pacman key issue
+*Seemingly had to do ```pacman-key --init``` and ```pacman-key --populate archlinuxarm``` again after setting time?*
 
 
 ## Sources:
