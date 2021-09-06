@@ -47,12 +47,17 @@ Unmount the two partitions using ```umount root boot```
 ## Setting up the device
 Move the SD-card to the Pi and connect via ethernet cable. 
 
-If you want to run the Pi with a monitor (at least temporarily, now would be the time to connect the HDMI cable).
+Now connect the HDMI cable.
 
-Plug in the power cable! (And watch it boot if connected to monitor)
+Plug in the power cable! (And watch it boot)
 
-If you want use SSH, wait around 30 seconds after plugging in the power cable (giving the system time to boot) and then SSH into the device, using the IP adress given by your router.
-*I tend to use a monitor to observe the beauty of the first boot and SSH directly afterwards so I can use my normal keyboard :)*
+If you want use SSH, wait for it to finish booting, then run enable ssh with the following:
+
+```systemctl enable sshd.service```
+
+```systemctl start sshd.service```
+
+and then SSH into the device, using the IP adress given by your router.
 
 Log in using the default user ```alarm``` with the default password ```alarm```.
 
@@ -61,6 +66,10 @@ Root password is ```root``` by default. (Used for "alarmpi login:" and the follo
 Initialize the pacman keyring ```pacman-key --init``` and populate the Arch Linux arm package signing keys: ```pacman-key --populate archlinuxarm```
 
 Done! You've now got a pretty basic, but running archlinux installation! At this point, you can choose to follow this guide further, to learn how I set up my arch install, or go your own way from here on!
+
+## Under Construction
+### Time issue
+
 
 ## Sources:
     - https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
