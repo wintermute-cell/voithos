@@ -73,5 +73,5 @@ Done! You've now got a pretty basic, but running archlinux installation! At this
 
 
 ## Sources:
-    - https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
-    - https://www.raspberrypi.org/forums/viewtopic.php?t=90337
+- https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
+- https://www.raspberrypi.org/forums/viewtopic.php?t=90337
