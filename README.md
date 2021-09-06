@@ -88,7 +88,7 @@ Then run ```nmcli device wifi list``` to list available wireless access points, 
 An SD-card has a very limited lifetime, especially when written to frequently. Using swap (particularly for hibernation) has a negative effect on SD-card lifetime. My recommendation would be to restrain from using swap, and to just be a little careful managing memory consumption. Should you choose to use swap anyway, see "Partition the disks" at https://wiki.archlinux.org/title/installation_guide.
 
 ### A note on hwclock
-The rpi3 doesnt have a hardware clock, don't bother with hwclock. YOu can get one with external components though.
+The rpi3 doesnt have a hardware clock, don't bother with hwclock. You can get one with external components though.
 
 ### Localization
 Edit ```/etc/locale.gen```, uncommenting your desired locale (remember the name of the locale, you'll need it in the next step).  
