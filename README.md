@@ -84,16 +84,6 @@ After correctly setting the time, install ```networkmanager```, and start/enable
 
 Then run ```nmcli device wifi list``` to list available wireless access points, followed by ```nmcli device wifi connect *SSID* password *PASSWORD*``` to connect to the network. Now finally run ```nmcli connection up *SSID*```. 
 
-### Setting up sudo
-Using pacman, install ```sudo```. Then, run ```visudo``` to edit the sudoers file. To enable full sudo permissions for all users in the ```wheel``` group, uncomment either  
-```# %wheel ALL=(ALL) ALL```  
-or  
-```# %wheel ALL=(ALL) NOPASSWD: ALL```  
-depending on wether you want a password promt or not.
-
-### Creating a new user
-To create a new user with administrative permissions, run ```useradd -m -g wheel *USERNAME*```. ```-m``` creates a home directory for the new user, and the wheel group is required for certain permissions (see *"Setting up sudo"*).
-
 ### A note on the swap partition
 An SD-card has a very limited lifetime, especially when written to frequently. Using swap (particularly for hibernation) has a negative effect on SD-card lifetime. My recommendation would be to restrain from using swap, and to just be a little careful managing memory consumption. Should you choose to use swap anyway, see "Partition the disks" at https://wiki.archlinux.org/title/installation_guide.
 
@@ -104,8 +94,8 @@ The rpi3 doesnt have a hardware clock, don't bother with hwclock. YOu can get on
 Edit ```/etc/locale.gen```, uncommenting your desired locale (remember the name of the locale, you'll need it in the next step).  
 Then run ```locale-gen``` to generate the locale.
 
-Now edit ```/etc/locale.conf```, setting  
-```LANG=LOCALE_NAME``` (for example ```de_DE.UTF-8```.)
+To set the system language edit ```/etc/locale.conf```, setting  
+```LANG=LOCALE_NAME``` (for example ```en_US.UTF-8```.)
 
 To permanently set your keyboard layout, create/edit ```/etc/vconsole.conf``` adding the line ```KEYMAP=*LAYOUT*``` where *LAYOUT* is your desired layout. You can list available layouts with ```ls /usr/share/kbd/keymaps/**/*.map.gz```.
 
@@ -118,7 +108,36 @@ Then, edit ```/etc/hosts```, adding
     ::1		localhost
     127.0.1.1	HOSTNAME.localdomain	HOSTNAME
 
-where *HOSTNAME* is the hostname you have set in the previous step.
+where *HOSTNAME* is the hostname you have set in the previous step. If the device has a permanent IP adress, use that one instead of `127.0.1.1`.
+
+### Setting the root password
+Type `passwd` to change the password of the root user if desired.
+
+### Setting up sudo
+Using pacman, install ```sudo```. Then, run ```visudo``` to edit the sudoers file. To enable full sudo permissions for all users in the ```wheel``` group, uncomment either  
+```# %wheel ALL=(ALL) ALL```  
+or  
+```# %wheel ALL=(ALL) NOPASSWD: ALL```  
+depending on wether you want a password promt or not.
+
+### Creating a new user
+To create a new user with administrative permissions, run ```useradd -m -g wheel *USERNAME*```. ```-m``` creates a home directory for the new user, and the wheel group is required for certain permissions (see *"Setting up sudo"*).
+
+To switch to that new user, use `su USERNAME`. To get back to the root user, use `su root`.
+
+### Reducing access to the SD-card
+As root, do the following:  
+To instruct systemd to store it's journals in RAM, first do `mkdir /etc/systemd/journald.conf.d/` and then create/edit the file `/etc/systemd/journald.conf.d/sdcard.conf`. Copy the following to the file and save it:
+
+    [Journal]
+    Storage=volatile
+    RuntimeMaxUse=30M
+
+Using `eatmydata`:  
+Install the package `libeatmydata`.  
+Type `eatmydata *PROGRAM*` where program is the name of the program, to prevent the program from writing files to disk. **Do not use this on a program that want to be able to write data, just use it to prevent unnecessary writing!**
+
+To find out what programs are frequently writing to the disk, use the `iotop` package.
 
 ## Unclear
 ### Time issue
@@ -134,4 +153,6 @@ where *HOSTNAME* is the hostname you have set in the previous step.
 - https://wiki.archlinux.org/title/NetworkManager
 - https://askubuntu.com/questions/795226/how-to-list-all-enabled-services-from-systemctl
 - https://wiki.archlinux.org/title/installation_guide
-- 
+- https://wiki.archlinux.org/title/Install_Arch_Linux_on_a_removable_medium
+- https://wiki.archlinux.org/title/Systemd/Journal
+- https://wiki.archlinux.org/title/Improving_performance#Reduce_disk_reads/writes
