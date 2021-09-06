@@ -77,9 +77,15 @@ Run ```pacman -Syu``` to perform a full system upgrade.
 ### Setting up wifi
 After correctly setting the time, install ```networkmanager```, and start/enable ```NetworkManager.service``` using ```systemctl```.
 
-Then run ```nmcli device wifi list``` to list available wireless access points, followed by ```nmcli device wifi connect *SSID* password *PASSWORD*``` to connect to the network.
+Then run ```nmcli device wifi list``` to list available wireless access points, followed by ```nmcli device wifi connect *SSID* password *PASSWORD*``` to connect to the network. Now finally run ```nmcli connection up *SSID*```. 
 
-### 
+### Setting up sudo
+Using pacman, install ```sudo```. Then, run ```visudo``` to edit the sudoers file. To enable full sudo permissions for all users in the ```wheel``` group, uncomment either  
+```# %wheel ALL=(ALL) ALL```
+or  
+```%wheel ALL=(ALL) NOPASSWD: ALL```
+
+depending on wether you want a password promt or not.
 
 ## Unclear
 ### Time issue
