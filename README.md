@@ -74,6 +74,9 @@ Run ```systemctl start systemd-timesyncd.service``` and ```systemctl enable syst
 ### Full system upgrade
 Run ```pacman -Syu``` to perform a full system upgrade.
 
+### (Optional) Installing a text editor
+Arch comes with ```vi``` preinstalled. If you'd like to proceed with ```vim```, ```nvim```, ```nano```, etc...,  then install the desired package now.
+
 ### Setting up wifi
 After correctly setting the time, install ```networkmanager```, and start/enable ```NetworkManager.service``` using ```systemctl```.
 
@@ -89,8 +92,16 @@ depending on wether you want a password promt or not.
 ### Creating a new user
 To create a new user with administrative permissions, run ```useradd -m -g wheel *USERNAME*```. ```-m``` creates a home directory for the new user, and the wheel group is required for certain permissions (see *"Setting up sudo"*).
 
-## A note on the swap partition
+### A note on the swap partition
 An SD-card has a very limited lifetime, especially when written to frequently. Using swap (particularly for hibernation) has a negative effect on SD-card lifetime. My recommendation would be to restrain from using swap, and to just be a little careful managing memory consumption. Should you choose to use swap anyway, see "Partition the disks" at https://wiki.archlinux.org/title/installation_guide.
+
+### A note on hwclock
+The rpi3 doesnt have a hardware clock, don't bother with hwclock. YOu can get one with external components though.
+
+### Localization
+Edit ```/etc/locale.gen```, uncommenting your desired locale (remember the name of the locale, you'll need it in the next step). Then run ```locale-gen``` to generate the locale.  
+Now edit ```/etc/locale.conf```, setting  
+```LANG=LOCALE_NAME``` (for example ```de_DE.UTF-8```.)
 
 ## Unclear
 ### Time issue
