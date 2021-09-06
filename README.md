@@ -53,8 +53,7 @@ Plug in the power cable! (And watch it boot)
 
 If you want use SSH, wait for it to finish booting, then run enable ssh with the following:
 
-```systemctl enable sshd.service```
-
+```systemctl enable sshd.service```  
 ```systemctl start sshd.service```
 
 and then SSH into the device, using the IP adress given by your router.
@@ -81,7 +80,7 @@ Then run ```nmcli device wifi list``` to list available wireless access points, 
 
 ### Setting up sudo
 Using pacman, install ```sudo```. Then, run ```visudo``` to edit the sudoers file. To enable full sudo permissions for all users in the ```wheel``` group, uncomment either  
-```# %wheel ALL=(ALL) ALL```
+```# %wheel ALL=(ALL) ALL```  
 or  
 ```%wheel ALL=(ALL) NOPASSWD: ALL```
 
