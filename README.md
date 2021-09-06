@@ -156,3 +156,4 @@ To find out what programs are frequently writing to the disk, use the `iotop` pa
 - https://wiki.archlinux.org/title/Install_Arch_Linux_on_a_removable_medium
 - https://wiki.archlinux.org/title/Systemd/Journal
 - https://wiki.archlinux.org/title/Improving_performance#Reduce_disk_reads/writes
+- https://wiki.archlinux.org/title/General_recommendations
