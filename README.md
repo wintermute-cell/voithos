@@ -67,9 +67,23 @@ Initialize the pacman keyring ```pacman-key --init``` and populate the Arch Linu
 
 Done! You've now got a pretty basic, but running archlinux installation! At this point, you can choose to follow this guide further, to learn how I set up my arch install, or go your own way from here on!
 
-## Under Construction
+## Basic setup
+### Setting the time
+Run ```systemctl start systemd-timesyncd.service``` and ```systemctl enable systemd-timesyncd.service```, and then ```timedatectl set-ntp true``` to enable time & date sync over the internet.
+
+### Full system upgrade
+Run ```pacman -Syu``` to perform a full system upgrade.
+
+### Setting up wifi
+After correctly setting the time, install ```networkmanager```, and start/enable ```NetworkManager.service``` using ```systemctl```.
+
+Then run ```nmcli device wifi list``` to list available wireless access points, followed by ```nmcli device wifi connect *SSID* password *PASSWORD*``` to connect to the network.
+
+### 
+
+## Unclear
 ### Time issue
-*Starting ```systemctl start systemd-timesyncd.service``` just worked at some point?? After that ```timedatectl set-ntp true``` to enable time sync over internet*.
+*Starting ```systemctl start systemd-timesyncd.service``` just worked at some point?? After that ```timedatectl set-ntp true``` to enable time sync over internet*. Could have had something to do with 
 ### pacman key issue
 *Seemingly had to do ```pacman-key --init``` and ```pacman-key --populate archlinuxarm``` again after setting time?*
 
