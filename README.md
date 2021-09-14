@@ -71,7 +71,16 @@ Done! You've now got a pretty basic, but running archlinux installation! At this
 ## Basic setup
 ### Setting the time
 First, in order to set the timezone, run ```ln -sf /usr/share/zoneinfo/REGION/CITY /etc/localtime```. use ```ls``` in these directories to search for you zone.
-Run ```systemctl start systemd-timesyncd.service``` and ```systemctl enable systemd-timesyncd.service```, and then ```timedatectl set-ntp true``` to enable time & date sync over the internet.
+Run ```systemctl start systemd-timesyncd.service``` and ```systemctl enable systemd-timesyncd.service```, and then ```timedatectl set-ntp true``` to enable time & date sync over the internet.  
+Edit `/etc/systemd/timesyncd.conf`:  
+
+```
+[Time]
+NTP=YOUR.SERVERS.1 YOUR.SERVERS.2 (for example 0.de.pool.ntp.org 1.de.pool.ntp.org)
+FallbackNTP=0.arch.pool.ntp.org 1.arch.pool.ntp.org 2.arch.pool.ntp.org 3.arch.pool.ntp.org
+```
+
+***TODO:(As of 14.09.2021, in order for `timedatectl timesync-status` to list a server after reboot, `systemctl restart systemd-networkd` has to be run.)***
 
 ### Full system upgrade
 Run ```pacman -Syu``` to perform a full system upgrade.
@@ -139,9 +148,46 @@ Type `eatmydata *PROGRAM*` where program is the name of the program, to prevent 
 
 To find out what programs are frequently writing to the disk, use the `iotop` package.
 
+### Installing development basics
+Use `pacman -S base-devel git` to install a bunch of software required for developing and compiling.
+
+### Installing a graphical environment (dwm and st)
+Use `pacman -S xorg-server xorg-xinit libx11 libxinerama libxft webkit2gtk` to install the required software to compile dwm and st.
+Use `git clone https://git.suckless.org/dwm` and `git clone https://git.suckless.org/st` to clone the source repositories.  
+Navigate to your home directory, create a file called `.xinitrc` and edit:  
+
+```
+exec dwm
+```
+
+this will run dwm at startup.
+
+Now let's compile:  
+`cd st` and `sudo make clean install`  
+`cd ../dwm` `sudo make clean install`  
+To configure dwm to use st for spawning shell commands, edit `dwm/config.h` (around l.51 probably):
+
+```
+#define SHCMD(cmd) { .v = (const char*[]){ "/usr/local/bin/st", "-c", cmd, NULL } }
+```
+
+*(Your path to st **may** deviate from mine, to find out, run `which st`.)*
+
+Now use `cp /etc/skel/.bash_profile ~/.bash_profile` to copy the skeleton-file to your home directory, then, at the end of the file, add `startx`.
+
+***Reboot***
+
+Your should now be booting into dwm after entering your credentials.
+
+## Resolving Issues
+### **SSL certificate problem: certificate is not yet valid** when using `git clone` on a `https` adress:
+Most likely there is an issue with the system time. This subject is prone to issues, as the Raspberry Pi 3 does not have a hardware clock, and relies fully on NTP to function properly.  
+To check the date/time, run `date`. To check ntp configuration, run `timedatectl status` and `timedatectl timesync-status`.  
+Sometimes, `networkd` has to be restarted in order for a connection to an NTP server to happen. Visit the **Setting the time** section.
+
 ## Unclear
 ### Time issue
-*Starting ```systemctl start systemd-timesyncd.service``` just worked at some point?? After that ```timedatectl set-ntp true``` to enable time sync over internet*. Could have had something to do with 
+*Starting ```systemctl start systemd-timesyncd.service``` just worked at some point?? After that ```timedatectl set-ntp true``` to enable time sync over internet*.
 ### pacman key issue
 *Seemingly had to do ```pacman-key --init``` and ```pacman-key --populate archlinuxarm``` again after setting time?*
 
@@ -157,3 +203,6 @@ To find out what programs are frequently writing to the disk, use the `iotop` pa
 - https://wiki.archlinux.org/title/Systemd/Journal
 - https://wiki.archlinux.org/title/Improving_performance#Reduce_disk_reads/writes
 - https://wiki.archlinux.org/title/General_recommendations
+- https://www.youtube.com/watch?v=jD8BtmMK0do
+- https://www.linux.org.ru/forum/general/16427865
+- https://wiki.archlinux.org/title/bash
