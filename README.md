@@ -183,7 +183,7 @@ Your should now be booting into dwm after entering your credentials.
 
 ### Setting up the environment  
 
-#### Keyboard layout  
+#### Keyboard layout
 X and arch do **not** share a keyboard layout. Because of that, you now need to do that for X:  
 To temporarily set the layout, you can use `setxkbmap LAYOUT`, where LAYOUT is your layout (for example `us` or `de`).  
 To permanently set the layout, either manually edit `/etc/X11/xorg.conf.d/00-keyboard.conf`, according to this wiki page:  
