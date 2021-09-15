@@ -153,7 +153,7 @@ To find out what programs are frequently writing to the disk, use the `iotop` pa
 ### Installing development basics
 Use `pacman -S base-devel git` to install a bunch of software required for developing and compiling.
 
-### Installing a graphical environment (dwm and st)
+## Installing and configuring a graphical environment (dwm and st)
 Use `pacman -S xorg-server xorg-xinit libx11 libxinerama libxft webkit2gtk` to install the required software to compile dwm and st.
 Use `git clone https://git.suckless.org/dwm` and `git clone https://git.suckless.org/st` to clone the source repositories.  
 Navigate to your home directory, create a file called `.xinitrc` and edit:  
@@ -181,7 +181,14 @@ Now use `cp /etc/skel/.bash_profile ~/.bash_profile` to copy the skeleton-file t
 
 Your should now be booting into dwm after entering your credentials.
 
-### Setting up the environment
+### Setting up the environment  
+
+#### Keyboard layout  
+X and arch do **not** share a keyboard layout. Because of that, you now need to do that for X:  
+To temporarily set the layout, you can use `setxkbmap LAYOUT`, where LAYOUT is your layout (for example `us` or `de`).  
+To permanently set the layout, either manually edit `/etc/X11/xorg.conf.d/00-keyboard.conf`, according to this wiki page:  
+https://wiki.archlinux.org/title/Xorg/Keyboard_configuration  
+or use `localectl set-x11-keymap LAYOUT` to generate the contents of that file automatically.
 
 ## Resolving Issues
 ### **SSL certificate problem: certificate is not yet valid** when using `git clone` on a `https` adress:
