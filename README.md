@@ -70,8 +70,10 @@ Done! You've now got a pretty basic, but running archlinux installation! At this
 
 ## Basic setup
 ### Setting the time
-First, in order to set the timezone, run ```ln -sf /usr/share/zoneinfo/REGION/CITY /etc/localtime```. use ```ls``` in these directories to search for you zone.
-Run ```systemctl start systemd-timesyncd.service``` and ```systemctl enable systemd-timesyncd.service```, and then ```timedatectl set-ntp true``` to enable time & date sync over the internet.  
+First, in order to set the timezone, run ```ln -sf /usr/share/zoneinfo/REGION/CITY /etc/localtime```.  
+Use ```ls``` in these directories to search for you zone.  
+Run ```systemctl start systemd-timesyncd.service``` and ```systemctl enable systemd-timesyncd.service```,  
+and then ```timedatectl set-ntp true``` to enable time & date sync over the internet.  
 Edit `/etc/systemd/timesyncd.conf`:  
 
 ```
@@ -178,6 +180,8 @@ Now use `cp /etc/skel/.bash_profile ~/.bash_profile` to copy the skeleton-file t
 ***Reboot***
 
 Your should now be booting into dwm after entering your credentials.
+
+### Setting up the environment
 
 ## Resolving Issues
 ### **SSL certificate problem: certificate is not yet valid** when using `git clone` on a `https` adress:
