@@ -136,6 +136,14 @@ To create a new user with administrative permissions, run ```useradd -m -g wheel
 
 To switch to that new user, use `su USERNAME`. To get back to the root user, use `su root`.
 
+### Disabling overscan (getting rid of screen borders)
+Edit `/boot/config.txt`, appending this line:  
+```
+disable_overscan=1
+```
+
+This will get rid of the screen borders after a reboot.
+
 ### Reducing access to the SD-card
 As root, do the following:  
 To instruct systemd to store it's journals in RAM, first do `mkdir /etc/systemd/journald.conf.d/` and then create/edit the file `/etc/systemd/journald.conf.d/sdcard.conf`. Copy the following to the file and save it:
@@ -153,9 +161,9 @@ To find out what programs are frequently writing to the disk, use the `iotop` pa
 ### Installing development basics
 Use `pacman -S base-devel git` to install a bunch of software required for developing and compiling.
 
-## Installing and configuring a graphical environment (dwm and st)
+## Installing and configuring a graphical environment (dwm, st and dmenu)
 Use `pacman -S xorg-server xorg-xinit libx11 libxinerama libxft webkit2gtk` to install the required software to compile dwm and st.
-Use `git clone https://git.suckless.org/dwm` and `git clone https://git.suckless.org/st` to clone the source repositories.  
+Use `git clone https://git.suckless.org/dwm`, `git clone https://git.suckless.org/st` and `git clone https://git.suckless.org/st` to clone the source repositories.  
 Navigate to your home directory, create a file called `.xinitrc` and edit:  
 
 ```
@@ -167,11 +175,16 @@ this will run dwm at startup.
 Now let's compile:  
 `cd st` and `sudo make clean install`  
 `cd ../dwm` `sudo make clean install`  
-To configure dwm to use st for spawning shell commands, edit `dwm/config.h` (around l.51 probably):
+`cd ../dmenu sudo make clean install`
+To configure dwm to use st for spawning shell commands, edit `dwm/config.def.h` (around l.51 probably):
 
 ```
 #define SHCMD(cmd) { .v = (const char*[]){ "/usr/local/bin/st", "-c", cmd, NULL } }
+
 ```
+
+and then run `sudo cp dwm/config.def.h dwm/config.h`, to copy the changes.  
+Then recompile using `sudo make clean install`.
 
 *(Your path to st **may** deviate from mine, to find out, run `which st`.)*
 
@@ -181,7 +194,15 @@ Now use `cp /etc/skel/.bash_profile ~/.bash_profile` to copy the skeleton-file t
 
 Your should now be booting into dwm after entering your credentials.
 
-### Setting up the environment  
+**Note:** It is recommended to now move the `st`, `dwm` and `dmenu` directories to `/usr/local/src/`.
+
+### Setting up the environment and installing additional software
+
+#### Changing the mod-key
+To use `<Super>` instead of `<Alt>`, edit `dwm/config.def.h`, changing the following:  
+From: `#define MODKEY Mod1Mask` to `#define MODKEY Mod4Mask`  
+To apply the changes, use `sudo cp dwm/config.def.h dwm/config.h`.  
+Then recompile using `sudo make clean install`.
 
 #### Keyboard layout
 X and arch do **not** share a keyboard layout. Because of that, you now need to do that for X:  
@@ -190,11 +211,36 @@ To permanently set the layout, either manually edit `/etc/X11/xorg.conf.d/00-key
 https://wiki.archlinux.org/title/Xorg/Keyboard_configuration  
 or use `localectl set-x11-keymap LAYOUT` to generate the contents of that file automatically.
 
+#### Xrandr
+Install `xorg-xrandr` using pacman.  
+Use `xrandr` to set the screen resolution if required.
+
+#### Audio
+Install `alsa-utils` using pacman.
+Run `alsamixer` to configure.
+
+#### Web browser
+Using pacman, install `lynx` and `qutebroser`.
+While `qutebrowser` will serve as the main browser, featuring full web graphics and images, `lynx`, a terminal/text-only browser, is there for situations where bandwidth or power is limited.
+
+#### Wallpaper and image-viewer
+Using pacman, install `feh`. `feh` is both an image viewer, and a wallpaper manger for your desktop.  
+Use the following command to set your wallpaper: `feh --bg-scale /path/to/image.file`.  
+After running that command, a file called `.fehbg` will have been generated in your home directory.  
+To automatically set your wallpaper on startup, edit `.xinitrc`, appending:
+
+```
+~/.fehbg &
+```
+### Additional modifications to dwm
+To learn how to patch and configure dwm yourself, watch this video (series): https://www.youtube.com/watch?v=DDJu3qlxW-Y  
+Alternatively, download my already modified version of `dwm` from this repository.
+
 ## Resolving Issues
 ### **SSL certificate problem: certificate is not yet valid** when using `git clone` on a `https` adress:
 Most likely there is an issue with the system time. This subject is prone to issues, as the Raspberry Pi 3 does not have a hardware clock, and relies fully on NTP to function properly.  
 To check the date/time, run `date`. To check ntp configuration, run `timedatectl status` and `timedatectl timesync-status`.  
-Sometimes, `networkd` has to be restarted in order for a connection to an NTP server to happen. Visit the **Setting the time** section.
+Sometimes, `systemd-networkd` has to be restarted using `systemctl restart` in order for a connection to an NTP server to happen. Visit the **Setting the time** section.
 
 ## Unclear
 ### Time issue
@@ -202,6 +248,8 @@ Sometimes, `networkd` has to be restarted in order for a connection to an NTP se
 ### pacman key issue
 *Seemingly had to do ```pacman-key --init``` and ```pacman-key --populate archlinuxarm``` again after setting time?*
 
+# To research:
+With the default configuration, the Raspberry Pi uses HDMI video if a HDMI monitor is connected. Otherwise, it uses analog TV-Out (also known as composite output or RCA) To turn the HDMI or analog TV-Out on or off, have a look at /opt/vc/bin/tvservice https://archlinuxarm.org/platforms/armv6/raspberry-pi
 
 ## Sources:
 - https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
@@ -217,3 +265,6 @@ Sometimes, `networkd` has to be restarted in order for a connection to an NTP se
 - https://www.youtube.com/watch?v=jD8BtmMK0do
 - https://www.linux.org.ru/forum/general/16427865
 - https://wiki.archlinux.org/title/bash
+- https://archlinuxarm.org/platforms/armv6/raspberry-pi
+- https://wiki.archlinux.org/title/feh
+- https://youtu.be/3QA0TdnE4IU
