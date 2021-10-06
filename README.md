@@ -81,8 +81,12 @@ Edit `/etc/systemd/timesyncd.conf`:
 NTP=YOUR.SERVERS.1 YOUR.SERVERS.2 (for example 0.de.pool.ntp.org 1.de.pool.ntp.org)
 FallbackNTP=0.arch.pool.ntp.org 1.arch.pool.ntp.org 2.arch.pool.ntp.org 3.arch.pool.ntp.org
 ```
-
-***TODO:(As of 14.09.2021, in order for `timedatectl timesync-status` to list a server after reboot, `systemctl restart systemd-networkd` has to be run.)***
+It is likely that `systemd-networkd` starts after `systemd-timesyncd`, causing the time to not syncronize properly. To fix this, use `systemdctl edit systemd-networkd`.
+In the openend file, read the comments. In the instructed are, add the following:
+```
+[Unit]
+After=systemd-timesyncd.service
+``` 
 
 ### Full system upgrade
 Run ```pacman -Syu``` to perform a full system upgrade.
