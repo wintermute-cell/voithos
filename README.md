@@ -1,6 +1,8 @@
 # voithos
 installing archlinux on a Raspberry Pi 3B
 
+![alt text](https://raw.githubusercontent.com/wintermute-cell/voithos/main/screensh.png)
+
 ## Required supplies
 - SD-card
 - Raspberry Pi 3B
