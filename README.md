@@ -169,7 +169,7 @@ Use `pacman -S base-devel git` to install a bunch of software required for devel
 
 ## Installing and configuring a graphical environment (dwm, st and dmenu)
 Use `pacman -S xorg-server xorg-xinit libx11 libxinerama libxft webkit2gtk` to install the required software to compile dwm and st.
-Use `git clone https://git.suckless.org/dwm`, `git clone https://git.suckless.org/st` and `git clone https://git.suckless.org/st` to clone the source repositories.  
+Use `git clone https://git.suckless.org/dwm`, `git clone https://git.suckless.org/st` and `git clone https://git.suckless.org/dmenu` to clone the source repositories.  
 Navigate to your home directory, create a file called `.xinitrc` and edit:  
 
 ```
